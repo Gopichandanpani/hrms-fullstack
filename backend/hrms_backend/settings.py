@@ -15,6 +15,13 @@ ALLOWED_HOSTS = [
     "127.0.0.1"
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://hrms-fullstack-eblo.onrender.com"
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -86,10 +93,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://hrms-fullstack-eblo.onrender.com"
-]
 
 STATIC_URL = "/static/"
 
