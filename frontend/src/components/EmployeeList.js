@@ -9,7 +9,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import api from "../api"; // adjust path if needed
+import api from "../services/api";
 
 function EmployeeList({ employees, refreshEmployees }) {
   const handleDelete = async (id) => {
