@@ -7,16 +7,21 @@ class Employee(models.Model):
     department = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.employee_id})"
 
 
 class Attendance(models.Model):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="attendance")
+    STATUS_CHOICES = (
+        ('Present', 'Present'),
+        ('Absent', 'Absent'),
+    )
+
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     date = models.DateField()
-    status = models.CharField(max_length=10)  # Present / Absent
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
 
     class Meta:
-        unique_together = ('employee', 'date')
+        unique_together = ('employee', 'date')  # prevents duplicate attendance
 
     def __str__(self):
         return f"{self.employee.name} - {self.date}"
