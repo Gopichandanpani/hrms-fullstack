@@ -1,26 +1,32 @@
 import os
 import dj_database_url
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-change-this-key'
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-change-this")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     "hrms-fullstack-eblo.onrender.com",
+    "hrms-fullstack-six.vercel.app",
     "localhost",
-    "127.0.0.1"
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://hrms-fullstack-eblo.onrender.com"
+    "https://hrms-fullstack-eblo.onrender.com",
+    "https://hrms-fullstack-six.vercel.app",
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
+
+
+# ========================
+# Installed Apps
+# ========================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,12 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'employees',
     'corsheaders',
+    'employees',
 ]
 
+
+# ========================
+# Middleware
+# ========================
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # MUST BE FIRST
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -45,6 +56,21 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+# ========================
+# CORS SETTINGS (IMPORTANT)
+# ========================
+
+CORS_ALLOWED_ORIGINS = [
+    "https://hrms-fullstack-six.vercel.app",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# For testing (optional)
+# CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'hrms_backend.urls'
 
@@ -66,12 +92,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hrms_backend.wsgi.application'
 
+
+# ========================
+# Database
+# ========================
+
 DATABASES = {
     "default": dj_database_url.config(
-        default="sqlite:///db.sqlite3",
         conn_max_age=600
     )
 }
+
+
+# ========================
+# Password validation
+# ========================
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -80,18 +115,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-STATIC_URL = 'static/'
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = "/static/"
-
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
