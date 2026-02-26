@@ -9,12 +9,16 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import api from "../api"; // adjust path if needed
 
 function EmployeeList({ employees, refreshEmployees }) {
-  const handleDelete = (id) => {
-    fetch(`http://127.0.0.1:8000/api/employees/${id}/`, {
-      method: "DELETE",
-    }).then(() => refreshEmployees());
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/employees/${id}/`);
+      refreshEmployees();
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
   };
 
   if (!employees.length) {
