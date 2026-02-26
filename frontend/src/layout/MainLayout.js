@@ -6,7 +6,7 @@ function MainLayout({ children }) {
     <Container maxWidth="lg">
       <Box sx={{ py: 4 }}>
         <Typography variant="h4" gutterBottom fontWeight="bold">
-          HRMS Dashboard
+          Human Resources Management System
         </Typography>
         {children}
       </Box>
